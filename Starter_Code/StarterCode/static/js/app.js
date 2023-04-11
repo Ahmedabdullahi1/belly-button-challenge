@@ -2,26 +2,25 @@ const url = "https://2u-data-curriculum-team.s3.amazonaws.com/dataviz-classroom/
 
 
 
-
 function init() {
-    // Use D3 to select the dropdown menu
-    let dropdownMenu = d3.select("#selDataset");
-    // Assign the value of the dropdown menu option to a variable
-
-
-    d3.json(url).then(function(data) {
- 
-       let names = data.names
-       
-       names.forEach(element => dropdownMenu.append("option").text(element) );
-
-       infotable(names[0])
-       plots(names[0])
-
-      });
+  // Grab a reference to the dropdown select element
+  let selector = d3.select("#selDataset");
+  // Use the list of sample names to populate the select options
+  d3.json("https://2u-data-curriculum-team.s3.amazonaws.com/dataviz-classroom/v1.1/14-Interactive-Web-Visualizations/02-Homework/samples.json").then((data) => {
+    let sampleNames = data.names;
+    for (let i = 0; i < sampleNames.length; i++){
+      selector
+        .append("option")
+        .text(sampleNames[i])
+        .property("value", sampleNames[i]);
+    };
   
-   
-  }
+  });
+}
+
+
+
+
 
   function optionChanged(sampleid) {
 
@@ -31,6 +30,9 @@ function init() {
 
   }
 
+
+
+  
 
   function infotable(sampleid) {
 
@@ -101,8 +103,8 @@ function init() {
             y:sample_values ,
             mode: 'markers',
             marker: {
-              color:,
-        
+            color: otu_ids,
+           // 'rgba(55,128,191,0.6)'
               size: sample_values
             }
           }];
@@ -124,3 +126,6 @@ function init() {
   }
   
   init();
+
+
+  
